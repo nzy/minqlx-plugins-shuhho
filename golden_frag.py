@@ -155,6 +155,7 @@ class golden_frag(minqlx.Plugin):
             self.center_print(msg)
 
     def handle_player_loaded(self, player):
+        player.tell("^3Plugin https://github.com/shuhho/minqlx-plugins")
         self.show_golden_frag_status(player)
 
     def handle_death(self, victim, killer, data):
