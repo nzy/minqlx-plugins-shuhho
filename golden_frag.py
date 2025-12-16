@@ -44,6 +44,7 @@ class golden_frag(minqlx.Plugin):
         self.win_type = WIN_TYPE_TIED
         self.player_names = {}
         self.player_kills = {}
+        self.save_timelimit = self.get_cvar("timelimit")
 
     @minqlx.delay(DELAY_MATCH_START_SEC)
     def handle_game_start(self, data):
@@ -199,9 +200,11 @@ class golden_frag(minqlx.Plugin):
             return
 
         if msg[1] == "1":
+            self.save_timelimit = self.get_cvar("timelimit")
             self.golden_frag_active = True
             self.msg("Golden frag: On")
         elif msg[1] == "0":
+            self.set_timelimit(self.save_timelimit)
             self.golden_frag_active = False
             self.msg("Golden frag: Off")
         else:
@@ -216,7 +219,7 @@ class golden_frag(minqlx.Plugin):
         self.set_timelimit(-1)
 
     def reset(self):
-        self.set_timelimit(self.original_timelimit)
+        self.set_timelimit(self.save_timelimit)
         self.original_timelimit = None
         self.end_time = 0
         self.end_time_saved = 0
