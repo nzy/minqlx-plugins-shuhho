@@ -28,6 +28,7 @@ class golden_frag(minqlx.Plugin):
         self.add_hook("team_switch_attempt", self.handle_team_switch_attempt, priority=minqlx.PRI_HIGH)
         self.add_hook("client_command", self.handle_client_command, priority=minqlx.PRI_HIGH)
         self.add_command("gf", self.cmd_gf)
+        self.add_command("gftl", self.cmd_gftl)
 
         self.player_data_lock = threading.RLock()
 
@@ -154,6 +155,7 @@ class golden_frag(minqlx.Plugin):
             self.golden_frag_time_active = True
             self.msg(msg)
             self.center_print(msg)
+            self.play_sound("sound/golden_frag/golden_frag.ogg")
 
     def handle_player_loaded(self, player):
         player.tell("^3Plugin https://github.com/shuhho/minqlx-plugins")
@@ -241,3 +243,6 @@ class golden_frag(minqlx.Plugin):
 
     def set_timelimit(self, timelimit):
         self.set_cvar("timelimit", timelimit)
+
+    def cmd_gftl(self, player, msg, channel):
+        self.play_sound("sound/golden_frag/golden_frag.ogg")
