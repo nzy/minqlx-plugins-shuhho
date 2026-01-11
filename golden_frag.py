@@ -82,7 +82,8 @@ class golden_frag(minqlx.Plugin):
             self.check_golden_frag_completion_by_other_reasons(player)
 
     def handle_player_disconnect(self, player, reason):
-        self.check_golden_frag_completion_by_other_reasons(player)
+        if player.team != TEAM_FREE:
+            self.check_golden_frag_completion_by_other_reasons(player)
 
     def handle_game_end(self, data):
         if self.winner_id is not None:
@@ -155,7 +156,7 @@ class golden_frag(minqlx.Plugin):
             self.golden_frag_time_active = True
             self.msg(msg)
             self.center_print(msg)
-            self.play_sound("sound/golden_frag/golden_frag.ogg")
+            self.play_announcer_sound("overtime")
 
     def handle_player_loaded(self, player):
         player.tell("^3Plugin https://github.com/shuhho/minqlx-plugins")
@@ -245,4 +246,7 @@ class golden_frag(minqlx.Plugin):
         self.set_cvar("timelimit", timelimit)
 
     def cmd_gftl(self, player, msg, channel):
-        self.play_sound("sound/golden_frag/golden_frag.ogg")
+        self.play_announcer_sound("overtime")
+
+    def play_announcer_sound(self, name):        
+        self.play_sound(f"sound/vo/{name}.ogg")
